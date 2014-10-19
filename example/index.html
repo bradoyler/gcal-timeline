@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+	<head>
+    <title>gCal Timeline</title>
+    <link rel="stylesheet" href="main.css">
+  </head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="../index.js" type="text/javascript"></script>
+<script type="text/javascript">
+  $(function() {
+    if(document.location.search){
+      var query = document.location.search.split('=');
+      if(query[0]==='?calendarId') {
+        $('#timeline').gCalTimeline({calendarId:query[1]});
+        return;
+      }
+    }
+    $('#timeline').gCalTimeline({});
+
+  });
+</script>
+
+<body>
+<div id="timeline">
+</div>
+</body>
+</html>
