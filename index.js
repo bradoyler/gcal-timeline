@@ -6,7 +6,7 @@
 
 	var defaults = $.extend (
 		{
-			calendarId:'986ji4tib4hldr1t4na95odp3s%40group.calendar.google.com',
+			calendarId:'en.usa#holiday@group.v.calendar.google.com',
 			apiKey:'Public_API_Key',
 			dateFormat: 'MonthDay',
 			errorMsg:'No events in calendar',
@@ -17,7 +17,7 @@
 		options);
 
 		var s='';
-		var feedUrl = 'https://www.googleapis.com/calendar/v3/calendars/'+defaults.calendarId.trim()+
+		var feedUrl = 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(defaults.calendarId.trim())+
     '/events?key='+ defaults.apiKey +'&orderBy=startTime&singleEvents=true&maxResults='+ defaults.maxEvents;
 
 		$.ajax({
@@ -27,11 +27,9 @@
         $($div).append('<h2>'+ data.summary +'</h2><div id="timeline_items" class="year-02"></div>');
 
 				$.each(data.items, function(e, item) {
-
           s+='<div class="timeline-item">';
-          if(item.start.dateTime) {
-            s+='<div class="year">'+formatDate(item.start.dateTime, defaults.dateFormat.trim())+'</div>';
-          }
+          var eventdate = item.start.dateTime || item.start.date ||'';
+          s+='<div class="year">'+formatDate(eventdate, defaults.dateFormat.trim())+'</div>';
           s+='<div class="marker"><div class="dot"></div></div>';
 					s+='<div class="info">'+item.summary+' '+ item.description +'</div>';
 					s+='</div>';
@@ -45,7 +43,7 @@
 		});
 
 		function formatDate(strDate, strFormat) {
-
+			console.log(strDate.length,'date');
 			var fd,arrDate,am,time;
 			var calendar = {
 				months: {
@@ -82,7 +80,7 @@
 			}
 
 			var year 		= parseInt(arrDate[1]);
-			var month 		= parseInt(arrDate[2]);
+			var month 	= parseInt(arrDate[2]);
 			var dayNum 	= parseInt(arrDate[3]);
 
 			var d = new Date(year,month-1,dayNum);
