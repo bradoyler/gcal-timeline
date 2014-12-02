@@ -7,15 +7,16 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="../index.js" type="text/javascript"></script>
 <script type="text/javascript">
+	var $ = window.$;
   $(function() {
     if(document.location.search){
       var query = document.location.search.split('=');
       if(query[0]==='?calendarId') {
-        $('#timeline').gCalTimeline({calendarId:query[1]});
+        $('#timeline').gCalTimeline({calendarId:query[1], apiKey:'AIzaSyAVhU0GdCZQidylxz7whIln82rWtZ4cIDQ'});
         return;
       }
     }
-    $('#timeline').gCalTimeline({});
+    $('#timeline').gCalTimeline({apiKey:'AIzaSyAVhU0GdCZQidylxz7whIln82rWtZ4cIDQ'});
 
   });
 </script>

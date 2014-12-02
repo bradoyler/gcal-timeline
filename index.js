@@ -6,7 +6,8 @@
 
 	var defaults = $.extend (
 		{
-			calendarId:'en.usa%23holiday%40group.v.calendar.google.com',
+			calendarId:'986ji4tib4hldr1t4na95odp3s%40group.calendar.google.com',
+			apiKey:'Public_API_Key',
 			dateFormat: 'MonthDay',
 			errorMsg:'No events in calendar',
 			timeZone:'America/New_York',
@@ -15,34 +16,30 @@
 		},
 		options);
 
-		var s='', st='starttime';
-
-		var feedUrl = 'http://www.google.com/calendar/feeds/'+defaults.calendarId.trim()+
-    '/public/full?orderby='+st+'&sortorder=a&futureevents='+defaults.futureEvents+'&max-results='+
-    defaults.maxEvents+'&ctz='+defaults.timeZone.trim()+'&alt=json';
+		var s='';
+		var feedUrl = 'https://www.googleapis.com/calendar/v3/calendars/'+defaults.calendarId.trim()+
+    '/events?key='+ defaults.apiKey +'&orderBy=startTime&singleEvents=true&maxResults='+ defaults.maxEvents;
 
 		$.ajax({
 			url: feedUrl,
-			dataType:"json",
+			dataType:'json',
 			success:function(data) {
-        $($div).append('<h2>'+ data.feed.title.$t +'</h2><div id="timeline_items" class="year-02"></div>');
+        $($div).append('<h2>'+ data.summary +'</h2><div id="timeline_items" class="year-02"></div>');
 
-				$.each(data.feed.entry, function(e, item) {
+				$.each(data.items, function(e, item) {
 
           s+='<div class="timeline-item">';
-          if(item.gd$when) {
-            s+='<div class="year">'+formatDate(item.gd$when[0].startTime,defaults.dateFormat.trim())+'</div>';
+          if(item.start.dateTime) {
+            s+='<div class="year">'+formatDate(item.start.dateTime, defaults.dateFormat.trim())+'</div>';
           }
           s+='<div class="marker"><div class="dot"></div></div>';
-					s+='<div class="info">'+item.title.$t+' '+ item.content.$t  +'</div>';
+					s+='<div class="info">'+item.summary+' '+ item.description +'</div>';
 					s+='</div>';
 				});
-
-        s+='<p><a href="'+ data.feed.link[0].href +'" target="blank">View Calendar</a></p>';
 				$('#timeline_items').append(s);
 			},
-			error: function (err) {
-				s+='<div class="entry"><p>'+defaults.errorMsg+'</p></div>';
+			error: function (error) {
+				s+='<div class="entry"><p>'+defaults.errorMsg+' | '+error+ '</p></div>';
 				$($div).append(s);
 			}
 		});
@@ -68,8 +65,8 @@
 				time 	= am?(parseInt(arrDate[4])+':'+arrDate[5]+' AM') : (arrDate[4]-12+':'+arrDate[5]+' PM');
 
 				if (time.indexOf('0') === 0) {
-					if (time.indexOf(':00') == 1) {
-						if (time.indexOf('AM') == 5 ) {
+					if (time.indexOf(':00') === 1) {
+						if (time.indexOf('AM') === 5 ) {
 							time='MIDNIGHT';
 						  } else {
 							 time='NOON';
@@ -84,9 +81,9 @@
 				time = 'Time not present in feed.';
 			}
 
-			year 		= parseInt(arrDate[1]);
-			month 		= parseInt(arrDate[2]);
-			dayNum 	= parseInt(arrDate[3]);
+			var year 		= parseInt(arrDate[1]);
+			var month 		= parseInt(arrDate[2]);
+			var dayNum 	= parseInt(arrDate[3]);
 
 			var d = new Date(year,month-1,dayNum);
 
