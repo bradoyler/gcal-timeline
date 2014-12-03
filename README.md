@@ -6,12 +6,13 @@ A jQuery plugin to display a public google calender in a timeline.
 ## Default Options
 ```js
 {
-  calenderId:'en.usa%23holiday%40group.v.calendar.google.com',
-  dateFormat: 'MonthDay',
-  errorMsg:'No events in calendar',
-  timeZone:'America/New_York',
-  futureEvents:false,
-  maxEvents: 50
+	calendarId:'en.usa#holiday@group.v.calendar.google.com',
+	apiKey:'Public_API_Key',
+	dateFormat: 'MonthDay',
+	errorMsg:'No events in calendar',
+	timeZone:'America/New_York',
+	futureEvents:false,
+	maxEvents: 50
 }
 ```
 
@@ -23,7 +24,7 @@ A jQuery plugin to display a public google calender in a timeline.
 
 <script type="text/javascript">
   $(function() {
-    $('#timeline').gCalTimeline({calenderId:'en.usa%23holiday%40group.v.calendar.google.com'});
+    $('#timeline').gCalTimeline({apiKey:'your_public_api_key', calendarId:'your.public.calendar@group.v.calendar.google.com'});
   });
 </script>
 <div id="timeline"></div>
