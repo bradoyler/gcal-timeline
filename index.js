@@ -27,11 +27,13 @@
         $($div).append('<h2>'+ data.summary +'</h2><div id="timeline_items" class="year-02"></div>');
 
 				$.each(data.items, function(e, item) {
+					var eventdate = item.start.dateTime || item.start.date ||'';
+					var summary = item.summary||'';
+					var description = item.description||'';
           s+='<div class="timeline-item">';
-          var eventdate = item.start.dateTime || item.start.date ||'';
           s+='<div class="year">'+formatDate(eventdate, defaults.dateFormat.trim())+'</div>';
           s+='<div class="marker"><div class="dot"></div></div>';
-					s+='<div class="info">'+item.summary+' '+ item.description +'</div>';
+					s+='<div class="info">'+summary+' '+ description +'</div>';
 					s+='</div>';
 				});
 				$('#timeline_items').append(s);
@@ -43,7 +45,6 @@
 		});
 
 		function formatDate(strDate, strFormat) {
-			console.log(strDate.length,'date');
 			var fd,arrDate,am,time;
 			var calendar = {
 				months: {
